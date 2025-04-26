@@ -22,11 +22,12 @@ const User = sequelize.define("User", {
     type: DataTypes.ENUM("client", "coiffeur", "admin"),
     defaultValue: "client",
   },
-  points_fidelite: {
-    type: DataTypes.INTEGER,
-    defaultValue: 0,
+  
+  nom: {
+    type: DataTypes.STRING,
+    allowNull: false
   },
-  nom_complet: {
+  prenom: {
     type: DataTypes.STRING,
     allowNull: false
   },

@@ -41,6 +41,42 @@ const GallerySection = () => {
       title: "Braids Bohèmes",
       service: "Tresses Collées",
     },
+    {
+      id: 7,
+      category: "coloration",
+      title: "Coloration Éclat",
+      service: "Teinture Végétale",
+    },
+    {
+      id: 8,
+      category: "evenements",
+      title: "Mariage Dakarois",
+      service: "Coiffure Cérémonie",
+    },
+    {
+      id: 9,
+      category: "tresses",
+      title: "",
+      service: "Tresses Collées",
+    },
+    {
+      id: 10,
+      category: "coupes",
+      title: "Coupe Moderne Homme",
+      service: "Coupe Barbe",
+    },
+    {
+      id: 11,
+      category: "tresses",
+      title: "Tresses Africaines",
+      service: "Tressage Créatif",
+    },
+    {
+      id: 12,
+      category: "soins",
+      title: "Soin Capillaire",
+      service: "Masque Naturel",
+    },
   ];
 
   const [activeFilter, setActiveFilter] = useState("all");

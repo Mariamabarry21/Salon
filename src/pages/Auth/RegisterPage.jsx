@@ -1,12 +1,44 @@
-import { FaUserPlus, FaPhone, FaGoogle, FaFacebook } from "react-icons/fa";
+import { FaUserPlus, FaPhone } from "react-icons/fa";
 import { GiAfrica } from "react-icons/gi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 export default function RegisterPage() {
+  const [formData, setFormData] = useState({
+    nom: "",
+    email: "",
+    telephone: "",
+    password: "",
+  });
+
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://192.168.1.85:5000/api/register", formData);
+      alert(response.data.message);
+      navigate("/rendezvous"); // Redirigez vers la page de prise de rendez-vous après l'inscription
+    } catch (error) {
+      console.error("Erreur lors de l'inscription :", error);
+      alert(error.response?.data?.message || "Une erreur est survenue.");
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#faf7f2] flex items-center">
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover bg-center"
+      style={{
+        backgroundImage: `url('/public/page.jpg')`,
+      }}
+    >
       <div className="container mx-auto px-4 max-w-xl">
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
+        <div className="bg-white/50 backdrop-blur-md rounded-2xl shadow-2xl p-8">
           {/* En-tête */}
           <div className="text-center mb-8">
             <GiAfrica className="text-5xl text-[#E53E3E] mx-auto mb-4" />
@@ -17,14 +49,16 @@ export default function RegisterPage() {
           </div>
 
           {/* Formulaire */}
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 lg:gap-3">
               <div>
                 <label className="block text-[#2D3748] mb-2">Nom complet</label>
                 <input
                   type="text"
+                  name="nom"
+                  value={formData.nom}
+                  onChange={handleChange}
                   className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#E53E3E]"
-                  placeholder="Awa Diop"
                   required
                 />
               </div>
@@ -33,6 +67,9 @@ export default function RegisterPage() {
                 <label className="block text-[#2D3748] mb-2">Email</label>
                 <input
                   type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#E53E3E]"
                   placeholder="contact@exemple.sn"
                   required
@@ -44,23 +81,23 @@ export default function RegisterPage() {
                 <div className="relative">
                   <input
                     type="tel"
+                    name="telephone"
+                    value={formData.telephone}
+                    onChange={handleChange}
                     className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#E53E3E] pl-12"
-                    placeholder="77 123 45 67"
                     required
                   />
-                  <div className="absolute left-3 top-3.5 text-gray-400">
-                    +221
-                  </div>
                   <FaPhone className="absolute right-3 top-3.5 text-gray-400" />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[#2D3748] mb-2">
-                  Mot de passe
-                </label>
+                <label className="block text-[#2D3748] mb-2">Mot de passe</label>
                 <input
                   type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
                   className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#E53E3E]"
                   required
                 />
@@ -75,7 +112,6 @@ export default function RegisterPage() {
               S'inscrire
             </button>
 
-            {/* Conditions */}
             <p className="text-sm text-gray-500 text-center">
               En cliquant sur S'inscrire, vous acceptez nos{" "}
               <Link to="/conditions" className="text-[#E53E3E] hover:underline">
@@ -84,26 +120,11 @@ export default function RegisterPage() {
             </p>
           </form>
 
-          {/* Séparateur */}
           <div className="my-8 flex items-center gap-0">
             <div className="flex-1 h-px bg-gray-200"></div>
-            {/* <span className="text-gray-400">Ou continuer avec</span> */}
             <div className="flex-1 h-px bg-gray-200"></div>
           </div>
 
-          {/* Boutons Sociaux */}
-          {/* <div className="flex gap-4">
-            <button className="flex-1 flex items-center justify-center gap-2 bg-[#DB4437] text-white p-3 rounded-lg hover:bg-opacity-90">
-              <FaGoogle />
-              Google
-            </button>
-            <button className="flex-1 flex items-center justify-center gap-2 bg-[#3B5998] text-white p-3 rounded-lg hover:bg-opacity-90">
-              <FaFacebook />
-              Facebook
-            </button>
-          </div> */}
-
-          {/* Lien Connexion */}
           <p className="text-center mt-8">
             Déjà membre ?{" "}
             <Link

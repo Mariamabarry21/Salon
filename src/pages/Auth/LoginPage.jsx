@@ -1,12 +1,48 @@
-import { FaSignInAlt, FaLock, FaGoogle, FaFacebook } from "react-icons/fa";
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
+import { FaSignInAlt, FaLock } from "react-icons/fa";
 import { GiAfrica } from "react-icons/gi";
-import { Link } from "react-router-dom";
 
-export default function LoginPage() {
+const LoginPage = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://192.168.1.85:5000/api/login", formData);
+      alert(response.data.message);
+
+      // Stockez le token dans le localStorage
+      localStorage.setItem("token", response.data.token);
+
+      // Redirigez vers la page personnelle avec l'ID du client
+      const clientId = response.data.client.id_client;
+      navigate(`/dashboard/${clientId}`);
+    } catch (error) {
+      console.error("Erreur lors de la connexion :", error);
+      alert(error.response?.data?.message || "Une erreur est survenue.");
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#faf7f2] flex items-center">
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover bg-center"
+      style={{
+        backgroundImage: `url('/public/page.jpg')`, // Assurez-vous que l'image est accessible
+      }}
+    >
       <div className="container mx-auto px-4 max-w-lg">
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
+        <div className="bg-white/50 backdrop-blur-md rounded-2xl shadow-2xl p-8">
           {/* En-tête */}
           <div className="text-center mb-8">
             <GiAfrica className="text-5xl text-[#E53E3E] mx-auto mb-4" />
@@ -20,11 +56,14 @@ export default function LoginPage() {
           </div>
 
           {/* Formulaire */}
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label className="block text-[#2D3748] mb-2">Email</label>
               <input
                 type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#E53E3E] focus:border-transparent"
                 placeholder="contact@exemple.sn"
                 required
@@ -36,7 +75,11 @@ export default function LoginPage() {
               <div className="relative">
                 <input
                   type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
                   className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#E53E3E] pr-10"
+                  placeholder="Entrez votre mot de passe"
                   required
                 />
                 <FaLock className="absolute top-4 right-3 text-gray-400" />
@@ -61,26 +104,11 @@ export default function LoginPage() {
             </div>
           </form>
 
-          {/* Séparateur */}
           <div className="my-8 flex items-center gap-0">
             <div className="flex-1 h-px bg-gray-200"></div>
-            {/* <span className="text-gray-400">Ou continuer avec</span> */}
             <div className="flex-1 h-px bg-gray-200"></div>
           </div>
 
-          {/* Boutons Sociaux */}
-          {/* <div className="flex gap-4">
-            <button className="flex-1 flex items-center justify-center gap-2 bg-[#DB4437] text-white p-3 rounded-lg hover:bg-opacity-90">
-              <FaGoogle />
-              Google
-            </button>
-            <button className="flex-1 flex items-center justify-center gap-2 bg-[#3B5998] text-white p-3 rounded-lg hover:bg-opacity-90">
-              <FaFacebook />
-              Facebook
-            </button>
-          </div> */}
-
-          {/* Lien Inscription */}
           <p className="text-center mt-8">
             Nouveau client ?{" "}
             <Link
@@ -94,4 +122,6 @@ export default function LoginPage() {
       </div>
     </div>
   );
-}
+};
+
+export default LoginPage;

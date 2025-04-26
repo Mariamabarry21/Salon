@@ -11,10 +11,9 @@ const Navbar = () => {
     { name: "Accueil", path: "#acceuil", id: "accueil" },
     { name: "Services", path: "services", id: "services" },
     { name: "Coiffeurs", path: "coiffeurs", id: "coiffeurs" },
-    { name: "Galerie", path: "galerie", id: "galerie" },
     { name: "Contact", path: "contact", id: "contact" },
     { name: "Connexion", path: "/login", id: "connexion" },
-    { name: "Inscription", path: "/register", id: "inscription" },
+    
   ];
 
   return (
@@ -55,7 +54,7 @@ const Navbar = () => {
           {/* CTA Desktop */}
           <div className="hidden md:flex items-center gap-4">
             <a
-              href="https://wa.me/+221771234567"
+              href="https://wa.me/+221770526310"
               target="_blank"
               rel="noreferrer"
               className="bg-[#25D366] text-white px-6 py-2 rounded-full flex items-center gap-2 hover:bg-[#128C7E] transition-colors"
@@ -64,7 +63,7 @@ const Navbar = () => {
               WhatsApp
             </a>
             <Link
-              to="/rdv"
+              to="/reservation"
               className="bg-[#E53E3E] text-white px-6 py-2 rounded-full hover:bg-[#F56565] transition-colors"
             >
               Prendre RDV
@@ -120,7 +119,7 @@ const Navbar = () => {
 
               <div className="mt-8 flex flex-col gap-4">
                 <a
-                  href="https://wa.me/+221771234567"
+                  href="https://wa.me/+221770526310"
                   className="bg-[#25D366] text-white px-6 py-3 rounded-full flex items-center gap-2 justify-center"
                 >
                   <FaWhatsapp className="text-xl" />
